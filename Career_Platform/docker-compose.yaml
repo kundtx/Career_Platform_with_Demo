@@ -1,0 +1,20 @@
+# https://github.com/bitnami/bitnami-docker-neo4j
+version: '3'
+services:
+  python-career:
+    image: docker.io/jacally/python-career:3.8.15
+    ports:
+      - '7070:8888' #jupyter notebook
+    volumes:
+      - `pwd`:/root/app
+    command: ["jupyter","notebook","--allow-root","--ip='0.0.0.0'"]      
+    networks:
+      - senclo_net
+
+# volumes:
+#   career_code:
+#     driver: local
+
+networks:
+  senclo_net:
+    external: true

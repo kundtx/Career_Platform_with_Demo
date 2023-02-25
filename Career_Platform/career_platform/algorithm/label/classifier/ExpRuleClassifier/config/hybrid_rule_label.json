@@ -1,0 +1,176 @@
+{
+    "深圳市外1": {
+        "expect": "any",
+        "tree": {
+            "0": [
+                true,
+                [
+                    1,
+                    2
+                ],
+                true,
+                "or"
+            ],
+            "1": [
+                true,
+                "深圳",
+                false,
+                null
+            ],
+            "2": [
+                true,
+                "深圳1",
+                false,
+                null
+            ]
+        }
+    },
+    "理工方向1": {
+        "expect": "any",
+        "tree": {
+            "0": [
+                true,
+                [
+                    1,
+                    2
+                ],
+                false,
+                "and"
+            ],
+            "1": [
+                true,
+                [
+                    3,
+                    4,
+                    5
+                ],
+                false,
+                "or"
+            ],
+            "2": [
+                true,
+                "科技技术",
+                false,
+                null
+            ],
+            "3": [
+                true,
+                "一般院校",
+                false,
+                null
+            ],
+            "4": [
+                true,
+                "双一流大学",
+                false,
+                null
+            ],
+            "5": [
+                true,
+                "海外名校",
+                false,
+                null
+            ]
+        }
+    },
+    "深圳1": {
+        "expect": "any",
+        "tree": {
+            "0": [
+                true,
+                [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                false,
+                "or"
+            ],
+            "1": [
+                true,
+                "龙华",
+                false,
+                null
+            ],
+            "2": [
+                true,
+                "罗湖",
+                false,
+                null
+            ],
+            "3": [
+                true,
+                "福田",
+                false,
+                null
+            ],
+            "4": [
+                true,
+                "南山",
+                false,
+                null
+            ],
+            "5": [
+                true,
+                "宝安",
+                false,
+                null
+            ],
+            "6": [
+                true,
+                "龙岗",
+                false,
+                null
+            ],
+            "7": [
+                true,
+                "盐田",
+                false,
+                null
+            ],
+            "8": [
+                true,
+                "坪山",
+                false,
+                null
+            ],
+            "9": [
+                true,
+                "光明",
+                false,
+                null
+            ],
+            "10": [
+                true,
+                "深汕特别合作区",
+                false,
+                null
+            ],
+            "11": [
+                true,
+                "大鹏新区",
+                false,
+                null
+            ]
+        }
+    },
+    "军检法机构1": {
+        "expect": "any",
+        "tree": {
+            "0": [
+                true,
+                "法务纪检",
+                false,
+                null
+            ]
+        }
+    }
+}
