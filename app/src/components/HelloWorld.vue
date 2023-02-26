@@ -22,6 +22,15 @@
               <el-menu-item index="1-3" style="font-size: 12px; height: 25px; line-height: 25px">CSN Visualization</el-menu-item>
             </a>
           </el-submenu>
+
+          <el-card class="box-card">
+            <div class="text item" style="font-size:14px">
+              Welcome! Simply enter a list of Chinese resumes separated by the # like the sample text we provided and our system will analyze the working experiences of each person, providing you with segmentation and visualization results.
+              
+              You can then explore the part of the octree and career social network by clicking on the corresponding buttons below. This system is designed to help you gain insights into how our project works.
+            </div>
+          </el-card>
+
         </el-menu>
       </el-aside>
 

@@ -92,10 +92,10 @@ async def resume_analysis():
                     continue
                 list_of_experience.append(
                     CP.common.Experience(uuid=uuid.uuid1().__str__(),
-                                         time_start=datetime.strptime(start,"%Y.%m"),
-                                         time_end=datetime.strptime(end,"%Y.%m"),
-                                         text_raw=t,
-                                         person_uuid=pid)
+                                        time_start=datetime.strptime(start,"%Y.%m"),
+                                        time_end=datetime.strptime(end,"%Y.%m"),
+                                        text_raw=t,
+                                        person_uuid=pid)
                 )
         list_of_experience = CP.algorithm.exp_parser.refine(list_of_experience)
         list_of_experience = CP.algorithm.exp_parser.segment(list_of_experience)
@@ -106,9 +106,10 @@ async def resume_analysis():
         
         # build octree
         if len(result)>1:
-            CP.algorithm.network.octree(exp_list=list_of_experience, 
-                                    person_list=list_of_person,
-                                    export_json=False)
+            CP.algorithm.network.octree(
+                exp_list=list_of_experience,
+                person_list=list_of_person,
+                export_json=False)
 
         return jsonify({'result': result})
 
