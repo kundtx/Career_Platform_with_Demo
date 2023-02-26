@@ -12,7 +12,8 @@ import os, sys
 import aiofiles
 from quart import Blueprint, jsonify, request, redirect, render_template, make_response, url_for
 from quart_cors import route_cors
-
+import uuid
+from datetime import datetime
 import Career_Platform.career_platform as CP
 from Career_API import utils
 from Career_API.utils import *
@@ -75,16 +76,40 @@ async def resume_analysis():
     if not isinstance(j, Dict):
         return {'error_code': 0, 'message': '无法获取请求数据'}, 200
     if isinstance(txt := j.get('txt'), str):
-        list_of_txt = txt.split('\n')
         list_of_experience = []
-        for t in list_of_txt:
-            list_of_experience.append(CP.common.Experience(text_raw=t))
+        list_of_person = []
+        for line in txt.split("\n"):
+            line = line.strip()
+            if line.startswith("#"):
+                current_person = line[1:-1]
+                pid = uuid.uuid1().__str__()
+                list_of_person.append(CP.common.Person(uuid=pid,name=current_person))
+            else:
+                try:
+                    interval, t = line.split(" ")
+                    start,end = interval.split("-")
+                except:
+                    continue
+                list_of_experience.append(
+                    CP.common.Experience(uuid=uuid.uuid1().__str__(),
+                                         time_start=datetime.strptime(start,"%Y.%m"),
+                                         time_end=datetime.strptime(end,"%Y.%m"),
+                                         text_raw=t,
+                                         person_uuid=pid)
+                )
         list_of_experience = CP.algorithm.exp_parser.refine(list_of_experience)
         list_of_experience = CP.algorithm.exp_parser.segment(list_of_experience)
         list_of_experience = CP.algorithm.exp_parser.rebuild(list_of_experience)
         result = []
         for e in list_of_experience:
             result.append(e.text_token)
+        
+        # build octree
+        if len(result)>1:
+            CP.algorithm.network.octree(exp_list=list_of_experience, 
+                                    person_list=list_of_person,
+                                    export_json=False)
+
         return jsonify({'result': result})
 
 

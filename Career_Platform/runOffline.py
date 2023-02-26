@@ -74,6 +74,7 @@ clm.save(replace_by="eval_uuid", label_list=label_list)
 del label_list
 
 # 用经历和人员数据生成组织机构树、在neo4j中计算出关系网络等
+
 octree = CP.algorithm.network.octree(exp_list=cem.getAll(), person_list=cpm.getAll())
 
 # 把octree保存为json文件
