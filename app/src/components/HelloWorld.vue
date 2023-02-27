@@ -27,7 +27,7 @@
             <div class="text item" style="font-size:14px">
               Welcome! Simply enter a list of Chinese resumes separated by the # like the sample text we provided and our system will analyze the working experiences of each person, providing you with segmentation and visualization results.
               
-              You can then explore the part of the octree and career social network by clicking on the corresponding buttons below. This system is designed to help you gain insights into how our project works.
+              You can then explore parts of the octree and career social network by clicking on the corresponding buttons below. This system is designed to help you gain insights into how our project works.
             </div>
           </el-card>
 
@@ -124,8 +124,8 @@ export default {
           var legend = []
           for (var item of echartsData) {
             legend.push({ name: item.category })
-            if (arrId.indexOf(item.name) == -1) {
-              arrId.push(item.name)
+            if (arrId.indexOf(item.id) == -1) {
+              arrId.push(item.id)
               echartsNode.push(item)
             }
           }
@@ -296,7 +296,6 @@ export default {
                       fontSize: 12,
                     },
                     formatter (x) {
-                      console.log(x.data);
                       return x.data.name;
                     },
                   },

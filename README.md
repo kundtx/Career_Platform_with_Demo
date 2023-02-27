@@ -19,11 +19,14 @@ To run the Career Platform Demo, follow these steps:
 1. Clone the repository to your local machine using `git clone https://github.com/kundtx/Career_Platform_with_Demo.git`.
 2. Install the required libraries using `pip install -r requirements.txt`. A python environment with version 3.8.x is recommended.
 3. Install and run the Neo4j database. Version 3.5.x is recommended.
-3. Run the `Career_API` using `python runApp.py`.
-3. Run the `app` using `npm run dev` under its folder.
-4. Open your web browser and navigate to `http://localhost:8080`.
-5. Enter a list of Chinese resumes separated by the `#` symbol, with each working experience listed on a separate line and the working period indicated at the beginning of each line in the format of `yyyy.mm-yyyy.mm`.
-6. Click the "Start Analysis" button to analyze the resumes and view the results.
-7. Click the "Synchronize Data" buttons under OCTree and CSN parts to view the corresponding visualizations.
-
-That's it! You can now use the Career Platform Demo to gain insights into the working experiences and relationships of individuals in your data set.
+4. Prepare `Career_Platform` by following these steps:
+   1. Download the `chinese_L-12_H-768_A-12` folder from the server and put it together with the folder in Career_Platform\career_platform\algorithm\exp_parser\segment\ner\ckpts\  
+   2. execute python3 career_platform\algorithm\exp_parser\segment\ner\bert.py at the command line  
+   3. execute python3 career_platform\algorithm\exp_parser\segment\ner\parser.py at the command line
+5. Run the `Career_API` using `python runApp.py`.
+6. Run the `app` using `npm run dev` under its folder.
+7. Enjoy the demo:
+   1. Open your web browser and navigate to `http://localhost:8080`.
+   2. Enter a list of Chinese resumes separated by the `#` symbol, with each working experience listed on a separate line and the working period indicated at the beginning of each line in the format of `yyyy.mm-yyyy.mm`.
+   3.  Click the "Start Analysis" button to analyze the resumes and view the results.
+   4.  Click the "Synchronize Data" buttons under OCTree and CSN parts to view the corresponding visualizations.

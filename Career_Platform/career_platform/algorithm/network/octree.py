@@ -9,7 +9,6 @@ from treelib import Tree
 from .utils import *
 from .neo4j import Neo4jAdapter
 from typing import List, Tuple, Dict, Callable
-from .ExpRuleClassifier import ExpRuleClassifier
 import datetime
 
 __all__ = ["octree"]
@@ -274,43 +273,6 @@ class CTree(Tree):
             self._update_node_interval(leaf, restore_node_interval)
 
         return restore_node_interval
-
-    # manual classifier
-    def get_classmap(self, root: treelib.Node, class_map_main: Dict, class_map_all: Dict) -> None:
-        """
-        use ExpRuleClassifier to get class of each node in octree.
-        And save it in dict class_map_main and class_map_all.
-        It's a recursive function.
-        """
-        # get the auto classifier
-        label_classifier = ExpRuleClassifier()
-        if root.is_leaf():
-            return
-        other_class = len(self.class_map) + 1
-        for c in self.get_children(root):
-            seq = self.get_prefix_name(c, remove_tag=True)
-            seq = seq.replace("深圳", "深圳市")
-            # TODO: adjust rule_label.json for classifier rather than replace here
-            label_dict = label_classifier.classify(seq, True)
-            classid = other_class  # default class is none class
-            for i, v in self.class_map.items():
-                if i in label_dict:
-                    classid = v
-                    # TODO : WHAT ABOUT MULTI CLASS LABELS ?
-                    # if it is "市直" or " 国企\军检法', then we won't label its location
-                    break
-            # if class is detected, this node and all children will be labeled as the class
-            if classid < other_class:
-                class_map_main[c.identifier] = int(classid)
-                self._label_all_subnodes(c, class_map_all, int(classid))
-            # if no class is detected, and the node's depth is high, then label it and its children
-            elif classid == other_class and self.get_depth_position(c) >= 0.7:  # the depth threshold is hyper-param
-                class_map_main[c.identifier] = int(classid)
-                self._label_all_subnodes(c, class_map_all, int(classid))
-            # if no class is detected, and the node's depth is small, then detect its children
-            else:
-                class_map_all[c.identifier] = int(classid)
-                self.get_classmap(c, class_map_main, class_map_all)
 
     '''
     APIs of octree

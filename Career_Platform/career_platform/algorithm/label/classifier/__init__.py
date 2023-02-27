@@ -1,2 +1,0 @@
-from .BertClassifier.BertClassifier import BertClassifier
-from .ExpRuleClassifier.ExpRuleClassifier import ExpRuleClassifier

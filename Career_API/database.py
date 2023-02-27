@@ -197,36 +197,6 @@ async def fuzzy_matching_exps_with_hanzi(condition: str):
     return pairs
 
 
-async def search_countrymen_with_uid(uid: Union[int, str]):
-    mysqlobj = await getmysqlobj()
-    res = await mysqlobj.query(f'select person_origo from person where person_uuid="{uid}";')
-    if len(res) == 1:
-        origo = res[0]['person_origo'].replace('\\n', '%').replace('\n', '%')
-        res = await mysqlobj.query(f'select person_uuid, person_name from person where person_origo like "%{origo}%";')
-        res = [r for r in res if r['person_uuid'] != str(uid)]
-        return res
-    else:
-        return None
-
-
-async def search_schoolfellow_with_uid(uid: Union[int, str]):
-    mysqlobj = await getmysqlobj()
-    res = await mysqlobj.query(f'select edu_ft_school from person where person_uuid="{uid}";')
-    if len(res) == 1:
-        ft_edu_school = res[0]['edu_ft_school'].replace('\\n', '%').replace('\n', '%')
-        res = await mysqlobj.query(f'select person_uuid, person_name from person where edu_ft_school like "%{ft_edu_school}%";')
-        res = [r for r in res if r['person_uuid'] != str(uid)]
-        return res
-    else:
-        return None
-
-
-async def search_family_member_with_uid(uid: Union[int, str]):
-    mysqlobj = await getmysqlobj()
-    res = await mysqlobj.query(f'select person_uuid, relative_name, relative_id from person_relative where person_uuid="{uid}" and person_uuid!="-1";')
-    return res
-
-
 async def search_relationship_with_uid_and_rid(uid: Union[int, str], rid: Union[int, str]):
     mysqlobj = await getmysqlobj()
     res = await mysqlobj.query(f'select * from relationship where person_uuid_from="{uid}" and exp_uuid_from="{rid}"')
@@ -292,23 +262,29 @@ async def get_mysql_stats():
 def get_visual_octree():
     GraphDatabase = Graph(neo4j_config)
     cql_col = "MATCH p=((m:Root)-[*]->(n:Leaf)) RETURN p Limit 10"
-    col_y = GraphDatabase.run(cql_col).to_ndarray(dtype=object)
+    col_y = GraphDatabase.run(cql_col).to_series()
     echartsData = []
     nodesRelatlon = []
+    nodesID = set()
+    edgesID = set()
 
     for p in col_y:
-        p=p[0]
         for n in p.nodes:
             labels = list(n.labels)
             if len(labels) > 1:
                 labels.remove("Node")
-            echartsData.append({'name': n['name'], 'category': labels[0]})
+            if n['id'] not in nodesID:
+                echartsData.append({'id':str(n['id']), 'name': n['name'], 'category': labels[0]})
+                nodesID.add(n['id'])
+
         for r in p.relationships:
-            nodesRelatlon.append({
-                'source': r.start_node['name'],
-                'target': r.end_node['name'],
-                'name': 'R'
-            })
+            if r.identity not in edgesID:
+                nodesRelatlon.append({
+                    'source': str(r.start_node['id']),
+                    'target': str(r.end_node['id']),
+                    'name': 'R'
+                })
+                edgesID.add(r.identity)
     return echartsData, nodesRelatlon
 
 

@@ -24,43 +24,6 @@ backend = Blueprint('backend', __name__)
 # 开发环境样例数据路径
 SAMPLE_DATA_FOLDER = os.path.join(os.path.dirname(__file__), "../Career_Platform/demo/sample_data/")
 
-''' ----------API Demo Web Page---------- '''
-
-
-@backend.route('/', methods=['GET'])
-async def index():
-    return redirect(url_for("backend.apiDemo"))
-
-
-@backend.route('/apiDemo', methods=['GET', 'POST'])
-async def apiDemo():
-    """
-    apiDemo网页
-    """
-    return await render_template("apiDemo.html")
-
-
-@backend.route('/getApiData', methods=['GET'])
-async def getApiData():
-    """
-    返回demo/apiData.json中的api数据, 用于给前端渲染API文档网页
-    """
-    async with aiofiles.open(os.path.abspath(os.path.dirname(__file__)) + '/demo/apiData.json', 'r', encoding='utf-8') as f:
-        apiData = await f.read()
-    return apiData, 200, {"Content-Type": "application/json"}
-
-
-''' ----------APP Demo Web Page---------- '''
-
-
-@backend.route('/appDemo', methods=['GET'])
-async def appDemo():
-    """
-    appDemo网页
-    """
-    return await render_template("appDemo.html")
-
-
 ''' ----------Demo APIs---------- '''
 
 
@@ -235,55 +198,6 @@ async def exp_fuzzy_matching():
         return {'error_code': -1, 'message': 'condition字段错误'}, 200
 
 
-@backend.route('/query_individual_relationship', methods=['GET', 'POST'])
-async def query_individual_relationship():
-    """ CareerSocialRelationship
-            query all trajectory
-        Input:
-            uid: int or str
-            type: none, int, str or list
-        Output:
-
-    """
-    if request.method == 'GET':
-        j = request.args
-    elif request.method == 'POST':
-        j = await request.get_json()
-    else:
-        return {'error_code': 0, 'message': '无此方法'}, 200
-    if not isinstance(j, Dict):
-        return {'error_code': 0, 'message': '无法获取请求数据'}, 200
-    if isinstance(uid := j.get('uid'), (int, str)):
-        if (type := j.get('type')) is None:
-            type = [0, 1, 2]
-        elif isinstance(type, (int, str)):
-            type = [int(type)]
-        else:
-            type = [int(t) for t in type]
-        result = []
-        if 0 in type:
-            if (res := await search_countrymen_with_uid(uid)) is not None:
-                for r in res:
-                    r['type'] = '0'
-                result.extend(res)
-        if 1 in type:
-            if (res := await search_schoolfellow_with_uid(uid)) is not None:
-                for r in res:
-                    r['type'] = '1'
-                result.extend(res)
-        if 2 in type:
-            if (res := await search_family_member_with_uid(uid)) is not None:
-                for r in res:
-                    r['type'] = '2'
-                result.extend(res)
-        if len(result) > 0:
-            return jsonify({'result': result})
-        else:
-            return {'error_code': -2, 'message': '无结果'}, 200
-    else:
-        return {'error_code': -1, 'message': 'uid字段错误'}, 200
-
-
 @backend.route('/query_social_relationship', methods=['GET', 'POST'])
 async def query_social_relationship():
     """ CareerSocialRelationship
@@ -329,26 +243,6 @@ async def query_social_relationship():
         return jsonify({'result': result})
     else:
         return {'error_code': -1, 'message': 'uid字段或rid字段错误'}, 200
-
-
-@backend.route('/generate_label_map', methods=['GET', 'POST'])
-async def generate_label_map():
-    if request.method == 'GET':
-        j = request.args
-    elif request.method == 'POST':
-        j = await request.get_json()
-    else:
-        return {'error_code': 0, 'message': '无此方法'}, 200
-    if not isinstance(j, Dict):
-        return {'error_code': 0, 'message': '无法获取请求数据'}, 200
-    if isinstance(uid := j.get('uid'), (int, str)):
-        result = await find_resume(uid)
-        if result:
-            return jsonify({'result': result})
-        else:
-            return {'error_code': -2, 'message': '无此用户'}, 200
-    else:
-        return {'error_code': -1, 'message': 'uid字段错误'}, 200
 
 
 ''' ---------- System Info APIs ---------- '''
