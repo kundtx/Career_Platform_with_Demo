@@ -20,7 +20,7 @@ To run the Career Platform Demo, follow these steps:
 2. Install the required libraries using `pip install -r requirements.txt`. A python environment with version 3.8.x is recommended.
 3. Install and run the Neo4j database. Version 3.5.x is recommended.
 4. Prepare `Career_Platform` by following these steps:
-   1. Download the `chinese_L-12_H-768_A-12` folder from the server and put it together with the folder in `Career_Platform\career_platform\algorithm\exp_parser\segment\ner\ckpts\ ` 
+   1. Download the [chinese_L-12_H-768_A-12](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip) folder and put it together with the folder in `Career_Platform\career_platform\algorithm\exp_parser\segment\ner\ckpts\ ` 
    2. execute `python career_platform\algorithm\exp_parser\segment\ner\bert.py` at the command line  
    3. execute `python career_platform\algorithm\exp_parser\segment\ner\parser.py` at the command line
 5. Run the `Career_API` using `python runApp.py`.
