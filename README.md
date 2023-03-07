@@ -1,6 +1,6 @@
 # Career Platform with Demo
 
-Welcome to the Career Platform! This project is designed to analyze Chinese resumes and extract important career relationships about the working experiences of each person, providing you with segmentation results and a career social network visualization.
+Welcome to the Career Platform! This project is designed to analyze Chinese resumes and extract important career relationships about the working experiences of each person, providing you with segmentation results and a career social network visualization. You can also try our demo on [DEMO]http://8.129.175.102/CareerMiner/
 
 ## Parts of Code
 
